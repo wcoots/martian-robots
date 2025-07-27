@@ -44,11 +44,9 @@ export function processRobotLines(robotLines: string[]): Robot[] {
     const x = parseInt(xString);
     const y = parseInt(yString);
 
-    const commands = commandsLine.split('') as Command[];
-
     robots.push({
       position: { x, y, direction: direction as Direction },
-      commands,
+      commands: commandsLine.split('') as Command[],
     });
   }
 

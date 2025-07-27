@@ -1,10 +1,42 @@
 import { Command, Direction, Position, Input, Output, Robot } from './types';
 
-const directionMap: Record<Direction, Position & { [Command.LEFT]: Direction; [Command.RIGHT]: Direction }> = {
-  [Direction.NORTH]: { x: 0, y: 1, [Command.LEFT]: Direction.WEST, [Command.RIGHT]: Direction.EAST },
-  [Direction.EAST]: { x: 1, y: 0, [Command.LEFT]: Direction.NORTH, [Command.RIGHT]: Direction.SOUTH },
-  [Direction.SOUTH]: { x: 0, y: -1, [Command.LEFT]: Direction.EAST, [Command.RIGHT]: Direction.WEST },
-  [Direction.WEST]: { x: -1, y: 0, [Command.LEFT]: Direction.SOUTH, [Command.RIGHT]: Direction.NORTH },
+const directionMap: Record<
+  Direction,
+  {
+    // Future movement commands such as FORWARD_2 would use this as multiplier for on this movement.
+    movement: Position;
+    // Future direction commands such as TURN_180 would be added here, possibly requiring more directions such as NORTHEAST.
+    commands: { [Command.LEFT]: Direction; [Command.RIGHT]: Direction };
+  }
+> = {
+  [Direction.NORTH]: {
+    movement: { x: 0, y: 1 },
+    commands: {
+      [Command.LEFT]: Direction.WEST,
+      [Command.RIGHT]: Direction.EAST,
+    },
+  },
+  [Direction.EAST]: {
+    movement: { x: 1, y: 0 },
+    commands: {
+      [Command.LEFT]: Direction.NORTH,
+      [Command.RIGHT]: Direction.SOUTH,
+    },
+  },
+  [Direction.SOUTH]: {
+    movement: { x: 0, y: -1 },
+    commands: {
+      [Command.LEFT]: Direction.EAST,
+      [Command.RIGHT]: Direction.WEST,
+    },
+  },
+  [Direction.WEST]: {
+    movement: { x: -1, y: 0 },
+    commands: {
+      [Command.LEFT]: Direction.SOUTH,
+      [Command.RIGHT]: Direction.NORTH,
+    },
+  },
 };
 
 export class InstructionProcessor {
@@ -27,7 +59,7 @@ export class InstructionProcessor {
         if (position.lost) return;
 
         if (command === Command.FORWARD) {
-          const movement = directionMap[position.direction];
+          const { movement } = directionMap[position.direction];
 
           const nextX = position.x + movement.x;
           const nextY = position.y + movement.y;
@@ -43,7 +75,7 @@ export class InstructionProcessor {
             position.y = nextY;
           }
         } else if (command === Command.LEFT || command === Command.RIGHT) {
-          position.direction = directionMap[position.direction][command];
+          position.direction = directionMap[position.direction].commands[command];
         }
       });
 
