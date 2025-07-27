@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { Command, Direction, Grid, Input, Robot } from './types';
+import { Command, Direction, Position, Input, Robot } from './types';
 
 const positionRegex = /^(\d+)\s+(\d+)$/; // "X Y"
 const positionWithDirectionRegex = /^(\d+)\s+(\d+)\s+([NSEW])$/; // "X Y D"
@@ -12,7 +12,7 @@ function readRawInput() {
   return fs.readFileSync(inputPath, 'utf-8').trim();
 }
 
-export function processGridSize(gridSizeLine: string): Grid {
+export function processGridSize(gridSizeLine: string): Position {
   if (!positionRegex.test(gridSizeLine)) {
     throw new Error('Invalid grid size format.');
   }
@@ -47,7 +47,7 @@ export function processRobotLines(robotLines: string[]): Robot[] {
     const commands = commandsLine.split('') as Command[];
 
     robots.push({
-      initialPosition: { x, y, direction: direction as Direction },
+      position: { x, y, direction: direction as Direction },
       commands,
     });
   }

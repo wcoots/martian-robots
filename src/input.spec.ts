@@ -36,8 +36,8 @@ describe('processRobotLines', () => {
   it('should return robots when input is valid', () => {
     const robots = processRobotLines(['1 2 N', 'FLR', '3 4 E', 'RLF']);
     expect(robots).toEqual([
-      { initialPosition: { x: 1, y: 2, direction: 'N' }, commands: ['F', 'L', 'R'] },
-      { initialPosition: { x: 3, y: 4, direction: 'E' }, commands: ['R', 'L', 'F'] },
+      { position: { x: 1, y: 2, direction: 'N' }, commands: ['F', 'L', 'R'] },
+      { position: { x: 3, y: 4, direction: 'E' }, commands: ['R', 'L', 'F'] },
     ]);
   });
 });

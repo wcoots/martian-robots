@@ -11,21 +11,25 @@ export enum Direction {
   WEST = 'W',
 }
 
-export interface Grid {
+export interface Position {
   x: number;
   y: number;
 }
 
-export interface Position extends Grid {
+export interface PositionWithDirection extends Position {
   direction: Direction;
 }
 
 export interface Robot {
-  initialPosition: Position;
+  position: PositionWithDirection;
   commands: Command[];
 }
 
 export interface Input {
-  grid: Grid;
+  grid: Position;
   robots: Robot[];
+}
+
+export interface Output extends PositionWithDirection {
+  lost: boolean;
 }
