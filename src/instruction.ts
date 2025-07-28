@@ -3,7 +3,7 @@ import { Command, Direction, Position, Input, Output, Robot } from './types';
 const directionMap: Record<
   Direction,
   {
-    // Future movement commands such as FORWARD_2 would use this as multiplier for on this movement.
+    // Future movement commands such as FORWARD_2 would use a multiplier on this movement value.
     movement: Position;
     // Future direction commands such as TURN_180 would be added here, possibly requiring more directions such as NORTHEAST.
     commands: { [Command.LEFT]: Direction; [Command.RIGHT]: Direction };
